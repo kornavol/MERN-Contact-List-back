@@ -1,7 +1,42 @@
 const contacts = require('../model/contacts');
+const logModel = require("../model/logs");
+const chalk = require("chalk")
+
+function fillLog(logId, prevData, postedData) {
+
+    // console.log(chalk.yellow('logId') ,logId)
+
+    delete postedData.logId
+   
+    // console.log(chalk.yellow('prevData'), prevData)
+    // console.log(chalk.yellow('postedData'), postedData)
+
+    const preData = JSON.stringify({...prevData})
+    const postData = JSON.stringify({...postedData})
+
+    console.log(chalk.yellow('COMPARISSON'), postData === postedData)
+
+    // console.log(chalk.yellow('preData'), preData)
+    // console.log(chalk.red('postData'), typeof(postData))
+    
+    const dates = {preData, postData}
+
+    console.log(chalk.red('dates') ,dates)
+
+    logModel.findByIdAndUpdate(logId, dates, (err,doc)=>{
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('from log updater', doc)
+            
+        }
+    }); 
+
+
+}
 
 exports.newContact = async (req, res) => {
-    console.log(req.body);
+    console.log("from controler \n", req.body);
     /* 
         const {fullName, email, phone, address} = req.body;
         const newContact = new contacts({
@@ -81,6 +116,18 @@ exports.updateContact = async (req,res) => {
 
 
     const updatedContact = await contacts.findById(contact._id);
+    // const prevVer = { ...updatedContact }
+    // let prevVer = Object.assign({}, updatedContact)
+
+    let prevVer = JSON.parse(JSON.stringify(updatedContact));
+    // prevVer = prevVer._doc
+    
+    // console.log(chalk.red('comparison'), prevVer === updatedContact )  
+    
+    console.log(chalk.green('prevVer'), prevVer)  
+
+    
+    
     
     //new contacts(contact);
 
@@ -96,7 +143,10 @@ exports.updateContact = async (req,res) => {
             console.log(err);
             res.send({status:'failed', message: err});
         } else {
-            console.log(doc);
+            console.log(chalk.blue('prevVer'), prevVer)    
+
+            fillLog(contact.logId, prevVer, contact)
+            
             res.send(({status:'success', message: 'Contact updated successfully'}));
         }
     });
