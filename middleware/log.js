@@ -1,7 +1,5 @@
 const logModel = require("../model/logs");
 
-
-
 exports.logger = (req, res, next) => {
   const logs = new logModel({
     dataTime: Date.now(),
@@ -13,8 +11,7 @@ exports.logger = (req, res, next) => {
     if (err) {
       res.status(500).send({ status: "failed", messag: err.errors });
     } else {
-        // console.log("from middleware",  docs);
-        req.body.logId = docs._id
+      req.body.logId = docs._id;
       next();
     }
   });
