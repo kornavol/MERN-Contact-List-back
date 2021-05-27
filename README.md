@@ -1,4 +1,5 @@
 ## Description
+Training project for learn how we can working with back and front
 
 ## To-Do
 

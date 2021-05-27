@@ -25,5 +25,5 @@ const contacts = new mongoose.Schema(
   },
   { collection: "contactList" } // we need collection to use directly name which we wannt othervise we have to use names in plural test -> tests
 );
-//first contacts is the collection name, second one is our constant
+//first paremetr (contactList) is the collection name, second one is our constant
 module.exports = mongoose.model("contactList", contacts);

@@ -1,11 +1,17 @@
 const userModel = require("../model/user");
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const jwtSKey = process.env.JWT_S_KEY;
 
 
-exports.registerPost = (req, res) => {
-    const newUser = new userModel(req.body);
+exports.registerPost = async (req, res) => {
+
+    let { email, pass } = req.body;
+
+    pass = await bcrypt.hash(pass, 10);
+
+    const newUser = new userModel({ email, pass });
 
     userModel.findOne({ email: req.body.email }, (err, doc) => {
         if (err) {
@@ -37,13 +43,9 @@ exports.registerPost = (req, res) => {
 
 exports.loginPost = (req, res) => {
 
-    // console.log("req.body", req.body);
+    let { email, pass } = req.body
 
-    const { email, pass } = req.body
-
-    console.log("email+pass", { email, pass });
-
-    userModel.findOne({ email, pass }, (err, doc) => {
+    userModel.findOne({ email }, async (err, doc) => {
         if (err) {
             console.log(err);
 
@@ -55,9 +57,10 @@ exports.loginPost = (req, res) => {
                 message: "Wrong credentials",
             });
         } else {
-            console.log(doc);
+            // console.log(doc);
 
-            if (doc.pass === req.body.pass) {
+            const match = await bcrypt.compare(pass, doc.pass);
+            if (match) {
                 const token = jwt.sign({ id: doc._id }, jwtSKey, { expiresIn: "1d" });  // expiresIn - "expires time" after this period token will not valid
                 res.send({
                     status: "success",

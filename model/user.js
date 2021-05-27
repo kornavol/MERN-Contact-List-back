@@ -9,7 +9,8 @@ const users = new mongoose.Schema({
     pass: {
         type: String,
         required: true,
-        minLenght: [8, 'Password must be at least 8 characters']
+        minLenght: [5, 'Here we could write a custom eroor message'],
+        maxLenght: 25
     }
 });
 

@@ -25,9 +25,9 @@ exports.newContact = async (req, res) => {
 exports.getAll = (req, res) => {
   contacts.find({}, (err, docs) => {
     if (err) {
-      res.send(err);
+      res.send({ status: "failed", message: err });
     } else {
-      res.send(docs);
+      res.send({ status: "success", message: "All data fetched successfuly", data: docs });
     }
   });
 };
@@ -64,7 +64,7 @@ exports.updateContact = async (req, res) => {
       res.send({ status: 'failed', message: err });
     } else {
       console.log(doc);
-      logs.findByIdAndUpdate(req.logId, { preData: JSON.stringify(doc), postData: JSON.stringify(contact) }, (err) => { });
+      logModel.findByIdAndUpdate(req.logId, { preData: JSON.stringify(doc), postData: JSON.stringify(contact) }, (err) => { });
       res.send(({ status: 'success', message: 'Contact updated successfully' }));
     }
   });
