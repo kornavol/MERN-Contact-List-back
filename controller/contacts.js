@@ -40,7 +40,7 @@ exports.deleteContact = (req, res) => {
       console.log(err);
       res.send({ status: "failed", message: err });
     } else if (doc === null) {
-      res.send({ status: "failed", message: "There was no contact" });
+      res.send({ status: "failed", message: "There is no contact" });
     } else {
 
       logModel.findByIdAndUpdate(req.logId, { preData: JSON.stringify(doc) }, (err, doc) => { });

@@ -9,7 +9,10 @@ router.get("/all",  contactsC.getAll);
 // router.post("/new", testMid.test, contactsC.newContact);
 router.post("/new", logMid.logger, contactsC.newContact);
 
+
+/*  params declareting AFTER forfad slash "/" */
 router.delete("/delete/:contactId", logMid.logger, contactsC.deleteContact);
+
 router.post("/update", logMid.logger, contactsC.updateContact);
 
 module.exports = router;
