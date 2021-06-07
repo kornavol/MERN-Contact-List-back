@@ -1,6 +1,22 @@
+const chalk = require("chalk");
+const multer = require('multer');
+const path = require('path');
+
 const contacts = require("../model/contacts");
 const logModel = require("../model/logs");
-const chalk = require("chalk");
+
+///... multer settings goes here
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, 'public/avatars')
+  },
+  filename: function (req, file, cb) {
+      cb(null, 'a' + Date.now() + path.extname(file.originalname))
+  }
+});
+
+const upload = multer({ storage: storage }).single('file');
 
 
 exports.newContact = async (req, res) => {
