@@ -12,7 +12,6 @@ const authMid = require('./middleware/auth')
 const public = require('./router/public')
 
 
-
 const port = process.env.PORT || 8080;
 
 connectDB();

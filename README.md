@@ -1,5 +1,14 @@
-## Description
-Training project for learn how we can working with back and front
+# Description
+
+Training project to connect front and back.
+Back-end part
+
+The front part here:
+<https://github.com/kornavol/MERN-Contact-List-front>
+
+## Links
+
+<https://dci-contact-list-back.herokuapp.com/>
 
 ## To-Do
 
